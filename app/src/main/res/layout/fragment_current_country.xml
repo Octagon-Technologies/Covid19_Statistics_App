@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorExtra"
+        android:paddingBottom="60dp">
+
+        <ImageView
+            android:id="@+id/country_flag_image"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="24dp"
+            android:src="@drawable/belgium_flag"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/confirmed_cases_plain_text"
+            style="@style/plain_text_style"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="2dp"
+            android:text="Confirmed cases: "
+            app:layout_constraintBottom_toTopOf="@+id/recovered_plain_text"
+            app:layout_constraintStart_toEndOf="@+id/country_flag_image"
+            app:layout_constraintTop_toBottomOf="@+id/new_recovered_plain_text" />
+
+        <TextView
+            android:id="@+id/recovered_plain_text"
+            style="@style/plain_text_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:text="Recovered: "
+            app:layout_constraintBottom_toTopOf="@+id/total_deaths_plain_text"
+            app:layout_constraintStart_toStartOf="@+id/confirmed_cases_plain_text"
+            app:layout_constraintTop_toBottomOf="@+id/confirmed_cases_plain_text" />
+
+        <TextView
+            android:id="@+id/total_deaths_plain_text"
+            style="@style/plain_text_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:text="Deaths: "
+            app:layout_constraintBottom_toBottomOf="@+id/country_flag_image"
+            app:layout_constraintStart_toStartOf="@+id/confirmed_cases_plain_text"
+            app:layout_constraintTop_toBottomOf="@+id/recovered_plain_text" />
+
+        <TextView
+            android:id="@+id/cases_display_text"
+            style="@style/display_text_style"
+            android:layout_marginStart="6dp"
+            app:layout_constraintBottom_toBottomOf="@+id/confirmed_cases_plain_text"
+            app:layout_constraintStart_toEndOf="@+id/confirmed_cases_plain_text"
+            app:layout_constraintTop_toTopOf="@+id/confirmed_cases_plain_text"
+            tools:text="10, 791" />
+
+        <TextView
+            android:id="@+id/total_recovered_display_text"
+            style="@style/display_text_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            app:layout_constraintBottom_toBottomOf="@+id/recovered_plain_text"
+            app:layout_constraintStart_toEndOf="@+id/recovered_plain_text"
+            app:layout_constraintTop_toTopOf="@+id/recovered_plain_text"
+            tools:text="3000" />
+
+        <TextView
+            android:id="@+id/total_death_display_text"
+            style="@style/display_text_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            app:layout_constraintBottom_toBottomOf="@+id/total_deaths_plain_text"
+            app:layout_constraintStart_toEndOf="@+id/total_deaths_plain_text"
+            app:layout_constraintTop_toTopOf="@+id/total_deaths_plain_text"
+            tools:text="202" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/current_recycler_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="70dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/country_flag_image" />
+
+        <TextView
+            android:id="@+id/history_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="History"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/current_recycler_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/new_cases_plain_text"
+            style="@style/plain_text_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:text="New Cases: "
+            app:layout_constraintBottom_toTopOf="@+id/new_recovered_plain_text"
+            app:layout_constraintStart_toStartOf="@+id/confirmed_cases_plain_text"
+            app:layout_constraintTop_toTopOf="@+id/country_flag_image" />
+
+        <TextView
+            android:id="@+id/new_recovered_plain_text"
+            style="@style/plain_text_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:text="New Recoveries: "
+            app:layout_constraintBottom_toTopOf="@+id/confirmed_cases_plain_text"
+            app:layout_constraintStart_toStartOf="@+id/confirmed_cases_plain_text"
+            app:layout_constraintTop_toBottomOf="@+id/new_cases_plain_text" />
+
+        <TextView
+            android:id="@+id/new_recoveries_display_text"
+            style="@style/display_text_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:text="TextView"
+            app:layout_constraintBottom_toBottomOf="@+id/new_recovered_plain_text"
+            app:layout_constraintStart_toEndOf="@+id/new_recovered_plain_text"
+            app:layout_constraintTop_toTopOf="@+id/new_recovered_plain_text"
+            tools:text="100" />
+
+        <TextView
+            android:id="@+id/new_cases_display_text"
+            style="@style/display_text_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            app:layout_constraintBottom_toBottomOf="@+id/new_cases_plain_text"
+            app:layout_constraintStart_toEndOf="@+id/new_cases_plain_text"
+            app:layout_constraintTop_toTopOf="@+id/new_cases_plain_text"
+            tools:text="437" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

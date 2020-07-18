@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/currentFragment"
+        android:icon="@drawable/ic_location"
+        android:title="@string/title_current_country" />
+
+    <item
+        android:id="@+id/allCountriesFragment"
+        android:icon="@drawable/ic_public"
+        android:title="@string/title_all_countries" />
+    <item
+        android:id="@+id/settingsFragment"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/title_settings" />
+
+
+</menu>
