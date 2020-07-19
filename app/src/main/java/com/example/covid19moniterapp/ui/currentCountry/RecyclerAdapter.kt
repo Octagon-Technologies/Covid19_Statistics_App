@@ -4,15 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.covid19moniterapp.databinding.EachCurrentItemBinding
-import com.example.covid19moniterapp.network.currentCountry.CurrentCountry
 import com.example.covid19moniterapp.network.currentCountry.CurrentCountryItem
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class RecyclerAdapter(): RecyclerView.Adapter<MyViewHolder>() {
+class RecyclerAdapter : RecyclerView.Adapter<MyViewHolder>() {
 
-    var data: List<CurrentCountryItem>? = listOf()
+    var data = arrayListOf<CurrentCountryItem>()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -22,17 +21,17 @@ class RecyclerAdapter(): RecyclerView.Adapter<MyViewHolder>() {
         return MyViewHolder(EachCurrentItemBinding.inflate(LayoutInflater.from(parent.context)))
     }
 
-    override fun getItemCount() = data?.size ?: 0
+    override fun getItemCount() = data.size
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val currentCountryItem = data?.get(position)
+        val currentCountryItem = data[position]
 
-        holder.bind(currentCountryItem, position)
+        holder.bind(currentCountryItem)
     }
 }
 
 class MyViewHolder(private val binding: EachCurrentItemBinding): RecyclerView.ViewHolder(binding.root){
-    fun bind(item: CurrentCountryItem?, position: Int) {
+    fun bind(item: CurrentCountryItem?) {
         binding.currentItem = item
 
         val date = item?.Date ?: ""

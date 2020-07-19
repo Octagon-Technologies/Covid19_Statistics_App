@@ -5,6 +5,8 @@ import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.ImageView
 import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
@@ -47,6 +49,16 @@ class CurrentFragment: Fragment() {
         )
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_current_country, container, false)
 
+
+        val spinnerItem = binding.sortSpinner
+        val provinceList = ArrayList<String>()
+
+        provinceList.add("Total")
+
+        val spinnerArrayAdapter = ArrayAdapter<String>(this.requireContext(), R.layout.simple_spinner_item, provinceList)
+        spinnerArrayAdapter.setDropDownViewResource(R.layout.simple_spinner_item)
+        spinnerItem.adapter = spinnerArrayAdapter
+
         val adapter = RecyclerAdapter()
         var currentCountryData = sharedViewModel.currentCountryData.value?.reversed()
 
@@ -64,9 +76,8 @@ class CurrentFragment: Fragment() {
         }
 
         var latestCountryItem: CurrentCountryItem?
-
-
         var totalCountryItem = Total(0, 0, 0, 0, 0)
+
         fun updateTotal(){
             latestCountryItem = currentCountryData?.get(0)
             sharedViewModel.setAllCountries()
@@ -83,6 +94,34 @@ class CurrentFragment: Fragment() {
                         totalCountryItem = Total(country.TotalConfirmed , country.TotalDeaths, country.TotalRecovered, country.NewConfirmed, country.NewRecovered)
                     }
                 }
+            }
+
+            var provinceIsEmpty: Boolean
+
+            sharedViewModel.currentCountryData.value?.let {
+                for (country in it){
+                    country.Province?.let {province ->
+
+                        provinceIsEmpty = province.isEmpty()
+                        Timber.i("provinceIsEmpty is $provinceIsEmpty")
+                        val newProvince = if (provinceIsEmpty){
+                            "Total"
+                        }else {
+                            province
+                        }
+
+                        if (!provinceList.contains(newProvince)){
+
+                            provinceList.add(newProvince)
+                            spinnerArrayAdapter.notifyDataSetChanged()
+
+                        }
+                    }
+                }
+
+                 if (!provinceList.contains("Total")){
+                     provinceList.add(0, "Total")
+                 }
             }
 
             binding.newCasesDisplayText.text = totalCountryItem.newCases.toString()
@@ -119,9 +158,7 @@ class CurrentFragment: Fragment() {
                 updateTotal()
 
                 try {
-                    Timber.i("adapter.data is ${if (adapter.data == null)"null" else "Not Null"} in timer")
-
-                    adapter.data = sharedViewModel.currentCountryData.value?.reversed() ?: listOf()
+                    adapter.data = sharedViewModel.currentCountryData.value?.reversed() as ArrayList<CurrentCountryItem>? ?: arrayListOf()
                 }
                 catch(t: Throwable) {
                     Timber.e(t)
@@ -133,21 +170,69 @@ class CurrentFragment: Fragment() {
             timer.start()
         }
 
+        spinnerItem.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                adapter.data.clear()
+                Timber.i("provinceList[position] is ${provinceList[position]}")
+                val itemTimer = object : CountDownTimer(9000, 500) {
+                    override fun onFinish() {
+                        uiScope.launch {
+                            sharedViewModel.repoInstance.refreshData()
+                        }
+                        sharedViewModel.setCurrentCountry()
+                    }
+
+                    override fun onTick(millisUntilFinished: Long) {
+                        uiScope.launch {
+                            sharedViewModel.repoInstance.refreshData()
+                        }
+                        sharedViewModel.setCurrentCountry()
+
+                        try {
+                            sharedViewModel.currentCountryData.value?.reversed()?.let { list ->
+                                for (eachItem in list){
+                                    eachItem.Province?.let {
+                                        Timber.i("provinceList[position] is ${provinceList[position]} and province is $it")
+                                        if (it == provinceList[position]){
+                                            adapter.data.add(eachItem)
+                                        }
+                                    }
+                                }
+                                adapter.notifyDataSetChanged()
+                            }
+                        }
+                        catch(t: Throwable) {
+                            Timber.e(t)
+                        }
+                    }
+                }
+
+                if (provinceList[position] == "Total"){
+                    timer.start()
+                }
+                else {
+                    timer.cancel()
+                    itemTimer.start()
+                }
+            }
+        }
+
         binding.newCasesDisplayText.text = totalCountryItem.newCases.toString()
         binding.newRecoveriesDisplayText.text = totalCountryItem.newRecovered.toString()
         binding.casesDisplayText.text = totalCountryItem.totalCases.toString()
         binding.totalRecoveredDisplayText.text = totalCountryItem.totalRecovered.toString()
         binding.totalDeathDisplayText.text = totalCountryItem.totalDeaths.toString()
 
-        adapter.data = sharedViewModel.currentCountryData.value?.reversed()
-
-
-        try {
-            Timber.i("adapter.data is ${if (adapter.data == null)"null" else "Not Null"}")
-        }
-        catch(t: Throwable) {
-            Timber.e(t)
-        }
+        adapter.data = sharedViewModel.currentCountryData.value?.reversed() as ArrayList<CurrentCountryItem>? ?: arrayListOf()
 
         binding.currentRecyclerView.adapter = adapter
 //        loadImage(binding.countryFlagImage, "https://www.countryflags.io/${latestCountryItem?.CountryCode}/flat/64.png")
