@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.covid19moniterapp.MainActivity
 import com.example.covid19moniterapp.R
+import com.example.covid19moniterapp.Total
 import com.example.covid19moniterapp.database.DataBase
 import com.example.covid19moniterapp.databinding.FragmentCurrentCountryBinding
 import com.example.covid19moniterapp.network.currentCountry.CurrentCountryItem
@@ -31,8 +32,9 @@ class CurrentFragment: Fragment() {
     private lateinit var sharedViewModel: SharedViewModel
     private lateinit var binding: FragmentCurrentCountryBinding
 
-    val actionBarJob = Job()
-    val actionBarScope = CoroutineScope(Dispatchers.Main + actionBarJob)
+    private val actionBarJob = Job()
+    private val actionBarScope = CoroutineScope(Dispatchers.Main + actionBarJob)
+    val provinceList = ArrayList<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,9 +53,6 @@ class CurrentFragment: Fragment() {
 
 
         val spinnerItem = binding.sortSpinner
-        val provinceList = ArrayList<String>()
-
-        provinceList.add("Total")
 
         val spinnerArrayAdapter = ArrayAdapter<String>(this.requireContext(), R.layout.simple_spinner_item, provinceList)
         spinnerArrayAdapter.setDropDownViewResource(R.layout.simple_spinner_item)
@@ -243,9 +242,6 @@ class CurrentFragment: Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         actionBarJob.cancel()
+        provinceList.clear()
     }
 }
-
-
-
-data class Total(val totalCases: Int, val totalDeaths: Int, val totalRecovered: Int, val newCases: Int, val newRecovered: Int)
