@@ -104,7 +104,7 @@ class CurrentFragment: Fragment() {
                         provinceIsEmpty = province.isEmpty()
                         Timber.i("provinceIsEmpty is $provinceIsEmpty")
                         val newProvince = if (provinceIsEmpty){
-                            "Total"
+                            "Mainland"
                         }else {
                             province
                         }
@@ -118,8 +118,9 @@ class CurrentFragment: Fragment() {
                     }
                 }
 
-                 if (!provinceList.contains("Total")){
+                 if (provinceList.size > 1 && !provinceList.contains("Total")){
                      provinceList.add(0, "Total")
+                     spinnerArrayAdapter.notifyDataSetChanged()
                  }
             }
 
@@ -201,8 +202,16 @@ class CurrentFragment: Fragment() {
                                 for (eachItem in list){
                                     eachItem.Province?.let {
                                         Timber.i("provinceList[position] is ${provinceList[position]} and province is $it")
-                                        if (it == provinceList[position]){
-                                            adapter.data.add(eachItem)
+                                        if (provinceList[position] == "Mainland"){
+                                            Timber.i("Add mainland objects")
+                                            if (it == ""){
+                                                adapter.data.add(eachItem)
+                                            }
+                                        }
+                                        else {
+                                            if (it == provinceList[position]) {
+                                                adapter.data.add(eachItem)
+                                            }
                                         }
                                     }
                                 }

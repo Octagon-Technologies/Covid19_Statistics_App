@@ -1,22 +1,27 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorExtra"
+    android:backgroundTint="@color/colorExtra">
 
     <PreferenceCategory app:title="@string/location_header">
 
         <SwitchPreferenceCompat
-            app:key="USE_DEVICE_LOCATION"
-            app:title="@string/your_location_title"
-            app:disableDependentsState="true"
-            app:summary="Allow the app to get your location"
+            android:background="@color/colorExtra"
+            android:backgroundTint="@color/colorExtra"
             app:defaultValue="true"
-            />
+            app:disableDependentsState="true"
+            app:key="USE_DEVICE_LOCATION"
+            app:summary="Allow the app to get your location"
+            app:title="@string/your_location_title" />
 
         <EditTextPreference
+            android:background="@color/colorExtra"
+            android:backgroundTint="@color/colorExtra"
+            app:dependency="USE_DEVICE_LOCATION"
             app:key="setLocation"
             app:title="@string/set_location_title"
-            app:defaultValue="London"
-            app:useSimpleSummaryProvider="true"
-            app:dependency="USE_DEVICE_LOCATION"/>
-
+            app:useSimpleSummaryProvider="true" />
 
 
     </PreferenceCategory>

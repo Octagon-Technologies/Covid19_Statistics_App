@@ -1,6 +1,7 @@
 package com.example.covid19moniterapp
 
 import android.os.Bundle
+import android.view.MenuItem
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -18,6 +19,7 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
+        
         val appBarConfiguration = AppBarConfiguration(setOf(
                 R.id.currentFragment, R.id.allCountriesFragment, R.id.settingsFragment))
         setupActionBarWithNavController(navController, appBarConfiguration)

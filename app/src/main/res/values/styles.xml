@@ -15,6 +15,10 @@
         <item name="android:textSize">17sp</item>
     </style>
 
+    <style name="MyPreferencesTheme" parent="Theme.AppCompat">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@color/colorExtra</item>
+    </style>
 
     <style name="display_text_style">
         <item name="android:layout_width">wrap_content</item>

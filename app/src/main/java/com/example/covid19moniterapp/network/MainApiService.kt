@@ -13,6 +13,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
+import java.util.concurrent.TimeUnit
 
 const val BASE_URL = "https://api.covid19api.com/"
 const val COUNTRY_IMAGE_BASE_URL = "https://www.countryflags.io/"
@@ -26,43 +27,50 @@ val moshi: Moshi = Moshi.Builder()
 var logging = HttpLoggingInterceptor().apply {
     this.level = HttpLoggingInterceptor.Level.BODY
 }
-val httpClient = OkHttpClient.Builder().addInterceptor(logging)
 
-val retrofit: Retrofit = Retrofit.Builder()
-    .addConverterFactory(MoshiConverterFactory.create(moshi))
-    .addCallAdapterFactory(CoroutineCallAdapterFactory())
-    .baseUrl(BASE_URL)
-    .client(httpClient.build())
-    .build()
+val httpClient = OkHttpClient.Builder().apply {
+    this.addInterceptor(logging)
+    this.connectTimeout(60, TimeUnit.SECONDS)
+    this.readTimeout(60, TimeUnit.SECONDS)
+    this.writeTimeout(60, TimeUnit.SECONDS)
+}
+
+    val retrofit: Retrofit = Retrofit.Builder()
+        .addConverterFactory(MoshiConverterFactory.create(moshi))
+        .addCallAdapterFactory(CoroutineCallAdapterFactory())
+        .baseUrl(BASE_URL)
+        .client(httpClient.build())
+        .build()
 
 //all weather full url = https://api.covid19api.com/summary
 
-interface AllCountriesApiService {
-    @GET("summary")
-    fun getAllCountriesAsync(): Deferred<AllCountries>
-}
+    interface AllCountriesApiService {
+        @GET("summary")
+        fun getAllCountriesAsync(): Deferred<AllCountries>
+    }
 
-interface CurrentCountryApiService {
-    @GET("dayone/country/{countryName}")
-    fun getCurrentWeatherAsync(
-        @Path("countryName") countryName: String
-    ): Deferred<List<com.example.covid19moniterapp.network.currentCountry.CurrentCountryItem>>
-}
+    interface CurrentCountryApiService {
+        @GET("dayone/country/{countryName}")
+        fun getCurrentWeatherAsync(
+            @Path("countryName") countryName: String
+        ): Deferred<List<com.example.covid19moniterapp.network.currentCountry.CurrentCountryItem>>
+    }
 
 // current country full url = https://api.covid19api.com/dayone/country/south-africa
 // current country = dayone/country/south-africa
 
-object AllCountriesItem{
-    val futureRetrofitService: AllCountriesApiService by lazy {
-        retrofit.create(AllCountriesApiService::class.java)
+    object AllCountriesItem{
+        val futureRetrofitService: AllCountriesApiService by lazy {
+            retrofit.create(AllCountriesApiService::class.java)
+        }
     }
-}
 
-object CurrentCountryItem{
-    val currentRetrofitService: CurrentCountryApiService by lazy {
-        retrofit.create(CurrentCountryApiService::class.java)
+    object CurrentCountryItem{
+        val currentRetrofitService: CurrentCountryApiService by lazy {
+            retrofit.create(CurrentCountryApiService::class.java)
+        }
     }
-}
+
 
 
 

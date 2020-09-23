@@ -15,7 +15,7 @@ import com.example.covid19moniterapp.network.allCountries.Country
 
 class AllRecyclerAdapter(): RecyclerView.Adapter<AllViewHolder>() {
 
-    var data: AllCountries? = null
+    var data: ArrayList<Country>? = null
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -25,10 +25,10 @@ class AllRecyclerAdapter(): RecyclerView.Adapter<AllViewHolder>() {
         return AllViewHolder(EachAllCountryItemBinding.inflate(LayoutInflater.from(parent.context)))
     }
 
-    override fun getItemCount() = data?.Countries?.size ?: 0
+    override fun getItemCount() = data?.size ?: 0
 
     override fun onBindViewHolder(holder: AllViewHolder, position: Int) {
-        val currentCountryItem = data?.Countries?.get(position)
+        val currentCountryItem = data?.get(position)
 
         holder.bind(currentCountryItem)
     }

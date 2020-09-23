@@ -1,6 +1,7 @@
 package com.example.covid19moniterapp.ui
 
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.Preference
@@ -36,9 +37,18 @@ class FragmentSettings: PreferenceFragmentCompat() {
             )
         ).get(SharedViewModel::class.java)
 
+        val timer = object : CountDownTimer(1200, 400){
+            override fun onFinish() {}
+
+            override fun onTick(millisUntilFinished: Long) {
+                (activity as MainActivity).supportActionBar?.title = "Settings"
+            }
+        }
+        timer.start()
+
         (activity as MainActivity).supportActionBar?.title = "Settings"
 
-            findPreference<Preference>(SET_LOCATION)!!.onPreferenceChangeListener = Preference.OnPreferenceChangeListener{ preference, newValue ->
+            findPreference<Preference>(SET_LOCATION)!!.onPreferenceChangeListener = Preference.OnPreferenceChangeListener{ _, newValue ->
             val stringValue = newValue.toString()
             cityName = stringValue
             viewModel.insertCityName()
