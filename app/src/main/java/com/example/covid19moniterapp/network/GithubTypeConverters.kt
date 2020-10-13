@@ -2,8 +2,7 @@ package com.example.covid19moniterapp.network
 
 import android.util.Log
 import androidx.room.TypeConverter
-import com.example.covid19moniterapp.network.allCountries.AllCountries
-import com.example.covid19moniterapp.network.currentCountry.CurrentCountry
+import com.example.covid19moniterapp.network.allCountries.MainGlobalData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
@@ -12,20 +11,20 @@ class GithubTypeConverters {
         var gson: Gson = Gson()
 
         @TypeConverter
-        fun stringToAllCountries(data: String?): AllCountries? {
+        fun stringToAllCountries(data: String?): MainGlobalData? {
             if (data == null) {
                 Log.i("TypeConverters", "currentData is null")
                 return null
             }
-            val listType: Type = object : TypeToken<AllCountries?>() {}.type
+            val listType: Type = object : TypeToken<MainGlobalData?>() {}.type
 
             return gson.fromJson(data, listType)
         }
 
         @TypeConverter
-        fun allCountriesToString(allCountries: AllCountries): String {
+        fun allCountriesToString(mainGlobalData: MainGlobalData): String {
 //            Log.i("TypeConverters", gson.toJson(currentWeatherDataClass))
-            return gson.toJson(allCountries)
+            return gson.toJson(mainGlobalData)
         }
 
         @TypeConverter

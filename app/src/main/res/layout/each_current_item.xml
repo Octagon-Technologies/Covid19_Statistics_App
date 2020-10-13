@@ -3,13 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-        <variable
-            name="currentItem"
-            type="com.example.covid19moniterapp.network.currentCountry.CurrentCountryItem" />
-    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main_constraint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorExtra"
@@ -45,7 +41,6 @@
         <TextView
             android:id="@+id/active_display_text"
             style="@style/each_display_style"
-            android:text="@{String.valueOf(currentItem.active)}"
             app:layout_constraintBottom_toBottomOf="@+id/active_plain_text"
             app:layout_constraintStart_toEndOf="@+id/active_plain_text"
             app:layout_constraintTop_toTopOf="@+id/active_plain_text"
@@ -66,7 +61,6 @@
             style="@style/each_display_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{String.valueOf(currentItem.Confirmed)}"
             app:layout_constraintBottom_toBottomOf="@+id/confirmed_plain_text"
             app:layout_constraintStart_toEndOf="@+id/confirmed_plain_text"
             app:layout_constraintTop_toTopOf="@+id/confirmed_plain_text"
@@ -88,7 +82,6 @@
             style="@style/each_display_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{String.valueOf(currentItem.Deaths)}"
             app:layout_constraintBottom_toBottomOf="@+id/deaths_plain_text"
             app:layout_constraintStart_toEndOf="@+id/deaths_plain_text"
             app:layout_constraintTop_toTopOf="@+id/deaths_plain_text"
@@ -111,7 +104,6 @@
             style="@style/each_display_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{String.valueOf(currentItem.Recovered)}"
             app:layout_constraintBottom_toBottomOf="@+id/recovered_plain_text"
             app:layout_constraintStart_toEndOf="@+id/recovered_plain_text"
             app:layout_constraintTop_toTopOf="@+id/recovered_plain_text"

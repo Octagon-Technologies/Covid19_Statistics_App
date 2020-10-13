@@ -1,7 +1,7 @@
 package com.example.covid19moniterapp.network
 
-import com.example.covid19moniterapp.network.allCountries.AllCountries
-import com.example.covid19moniterapp.network.currentCountry.CurrentCountry
+import com.example.covid19moniterapp.network.allCountries.MainGlobalData
+import com.example.covid19moniterapp.network.currentCountry.CurrentCountryItem
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -12,7 +12,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
-import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
 const val BASE_URL = "https://api.covid19api.com/"
@@ -25,13 +24,13 @@ val moshi: Moshi = Moshi.Builder()
     .build()
 
 var logging = HttpLoggingInterceptor().apply {
-    this.level = HttpLoggingInterceptor.Level.BODY
+    this.level = HttpLoggingInterceptor.Level.HEADERS
 }
 
 val httpClient = OkHttpClient.Builder().apply {
     this.addInterceptor(logging)
     this.connectTimeout(60, TimeUnit.SECONDS)
-    this.readTimeout(60, TimeUnit.SECONDS)
+    this.readTimeout(5, TimeUnit.MINUTES)
     this.writeTimeout(60, TimeUnit.SECONDS)
 }
 
@@ -46,26 +45,26 @@ val httpClient = OkHttpClient.Builder().apply {
 
     interface AllCountriesApiService {
         @GET("summary")
-        fun getAllCountriesAsync(): Deferred<AllCountries>
+        fun getAllCountriesAsync(): Deferred<MainGlobalData>
     }
 
     interface CurrentCountryApiService {
         @GET("dayone/country/{countryName}")
         fun getCurrentWeatherAsync(
             @Path("countryName") countryName: String
-        ): Deferred<List<com.example.covid19moniterapp.network.currentCountry.CurrentCountryItem>>
+        ): Deferred<List<CurrentCountryItem>>
     }
 
 // current country full url = https://api.covid19api.com/dayone/country/south-africa
 // current country = dayone/country/south-africa
 
-    object AllCountriesItem{
+    object AllCountriesObject{
         val futureRetrofitService: AllCountriesApiService by lazy {
             retrofit.create(AllCountriesApiService::class.java)
         }
     }
 
-    object CurrentCountryItem{
+    object CurrentCountryObject{
         val currentRetrofitService: CurrentCountryApiService by lazy {
             retrofit.create(CurrentCountryApiService::class.java)
         }

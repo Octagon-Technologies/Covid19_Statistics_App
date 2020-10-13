@@ -1,2 +1,3 @@
+include ':groupie-databinding-2.5.1'
 include ':app'
 rootProject.name = "Covid19 Moniter App"

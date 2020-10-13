@@ -19,7 +19,7 @@
             android:layout_height="140dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="24dp"
-            android:src="@drawable/belgium_flag"
+            tools:srcCompat="@drawable/belgium_flag"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -138,7 +138,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
-            android:text="TextView"
             app:layout_constraintBottom_toBottomOf="@+id/new_recovered_plain_text"
             app:layout_constraintStart_toEndOf="@+id/new_recovered_plain_text"
             app:layout_constraintTop_toTopOf="@+id/new_recovered_plain_text"

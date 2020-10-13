@@ -14,7 +14,7 @@
         android:label="Summary" />
     <fragment
         android:id="@+id/currentFragment"
-        android:name="com.example.covid19moniterapp.ui.currentCountry.CurrentFragment"
+        android:name="com.example.covid19moniterapp.ui.currentCountry.CurrentCountryFragment"
         android:label="CurrentFragment" />
 
 </navigation>

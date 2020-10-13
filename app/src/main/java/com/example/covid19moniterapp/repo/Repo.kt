@@ -4,11 +4,9 @@ import com.example.covid19moniterapp.cityName
 import com.example.covid19moniterapp.database.AllCountriesDatabaseClass
 import com.example.covid19moniterapp.database.CurrentDatabaseClass
 import com.example.covid19moniterapp.database.DataBase
-import com.example.covid19moniterapp.network.AllCountriesItem
-import com.example.covid19moniterapp.network.CurrentCountryApiService
-import com.example.covid19moniterapp.network.CurrentCountryItem
-import com.example.covid19moniterapp.network.allCountries.AllCountries
-import com.example.covid19moniterapp.network.currentCountry.CurrentCountry
+import com.example.covid19moniterapp.network.AllCountriesObject
+import com.example.covid19moniterapp.network.CurrentCountryObject
+import com.example.covid19moniterapp.network.allCountries.MainGlobalData
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -19,12 +17,12 @@ class Repo(private val database: DataBase){
     var currentCountryData: CurrentDatabaseClass? = null
     var allCountriesData: AllCountriesDatabaseClass? = null
 
-    var allCountriesDeferred: Deferred<AllCountries>? = null
+    var mainGlobalDataDeferred: Deferred<MainGlobalData>? = null
     var currentCountyDeferred: Deferred<List<com.example.covid19moniterapp.network.currentCountry.CurrentCountryItem>>? = null
 
     fun searchData() {
-        allCountriesDeferred = AllCountriesItem.futureRetrofitService.getAllCountriesAsync()
-         currentCountyDeferred = CurrentCountryItem.currentRetrofitService.getCurrentWeatherAsync(cityName)
+        mainGlobalDataDeferred = AllCountriesObject.futureRetrofitService.getAllCountriesAsync()
+         currentCountyDeferred = CurrentCountryObject.currentRetrofitService.getCurrentWeatherAsync(cityName)
     }
 
     suspend fun refreshData() {
@@ -39,9 +37,9 @@ class Repo(private val database: DataBase){
                 val currentDatabaseClass = CurrentDatabaseClass(current_country = currentCountry)
                 Timber.i("Online Country is ${currentCountry[0].Country}")
 
-                val allCountries = allCountriesDeferred!!.await()
+                val allCountries = mainGlobalDataDeferred!!.await()
                 val allCountriesDatabaseClass =
-                    AllCountriesDatabaseClass(all_countries = allCountries)
+                    AllCountriesDatabaseClass(mainGlobalData = allCountries)
 
                 database.currentDao.insertCurrentDataClass(currentDatabaseClass)
                 database.allCountriesDao.insertAllCountriesClass(allCountriesDatabaseClass)

@@ -3,10 +3,8 @@ package com.example.covid19moniterapp.database
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.covid19moniterapp.network.allCountries.AllCountries
-import com.example.covid19moniterapp.network.currentCountry.CurrentCountry
+import com.example.covid19moniterapp.network.allCountries.MainGlobalData
 import com.example.covid19moniterapp.network.currentCountry.CurrentCountryItem
-import com.squareup.moshi.Json
 
 // TODO: Add type converter for entities
 
@@ -29,7 +27,7 @@ data class AllCountriesDatabaseClass(
         val all_countries_id: Int = FUTURE_WEATHER_VALUE,
 
         @ColumnInfo
-        val all_countries: AllCountries
+        val mainGlobalData: MainGlobalData
 
 )
 

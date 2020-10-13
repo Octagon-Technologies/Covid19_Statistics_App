@@ -1,104 +1,62 @@
 package com.example.covid19moniterapp.ui.allCountries
 
-import android.content.Context
 import android.os.Bundle
-import android.os.CountDownTimer
-import android.util.Log
 import android.view.*
-import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.covid19moniterapp.MainActivity
+import androidx.lifecycle.observe
 import com.example.covid19moniterapp.R
 import com.example.covid19moniterapp.database.DataBase
 import com.example.covid19moniterapp.databinding.FragmentAllCountriesBinding
-import com.example.covid19moniterapp.network.allCountries.Country
-import com.example.covid19moniterapp.ui.currentCountry.RecyclerAdapter
-import com.example.covid19moniterapp.viewmodel.SharedViewModel
-import com.example.covid19moniterapp.viewmodel.SharedViewModelFactory
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import com.example.covid19moniterapp.ui.currentCountry.CurrentCountryViewModel
+import com.example.covid19moniterapp.ui.currentCountry.CurrentCountryViewModelFactory
 import timber.log.Timber
-import java.util.*
-import kotlin.collections.ArrayList
 
 class AllCountriesFragment : Fragment() {
 
-    private lateinit var viewModel: SharedViewModel
+    private val database = lazy {
+        DataBase.getInstance(requireActivity().application)!!
+    }
+    private lateinit var viewModel: AllCountriesViewModel
     private lateinit var binding: FragmentAllCountriesBinding
-    lateinit var adapter: AllRecyclerAdapter
-
-    private val actionBarJob = Job()
-    val actionBarScope = CoroutineScope(Dispatchers.Main + actionBarJob)
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        val application = requireNotNull(this.activity).application
-        val database = DataBase.getInstance(application)
 
-        viewModel = ViewModelProvider(this, SharedViewModelFactory(database!!)).get(SharedViewModel::class.java)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_all_countries, container, false)
+        viewModel = ViewModelProvider(viewModelStore, AllCountriesViewModelFactory(database.value, requireContext())).get(AllCountriesViewModel::class.java)
 
         setHasOptionsMenu(true)
+        binding.recyclerView.adapter = viewModel.adapter
 
-        adapter = AllRecyclerAdapter()
-        viewModel.setAllCountries()
-        try{
-            viewModel.setAllCountries()
-            adapter.data = viewModel.allCountriesData.value?.Countries as ArrayList<Country>?
-        }
-        catch (t: Throwable){
-            Timber.e(t)
-        }
-        finally {
-            viewModel.setAllCountries()
-            adapter.data = viewModel.allCountriesData.value?.Countries as ArrayList<Country>?
-        }
-
-        val timer = object : CountDownTimer(5000, 500){
-            override fun onFinish() {
-                try{
-                    viewModel.setAllCountries()
-                    adapter.data = viewModel.allCountriesData.value?.Countries as ArrayList<Country>?
-                }
-                catch (t: Throwable){
-                    Timber.e(t)
-                }
-                finally {
-                    viewModel.setAllCountries()
-                    adapter.data = viewModel.allCountriesData.value?.Countries as ArrayList<Country>?
-                }
+        viewModel.mainGlobalDataData.observe(viewLifecycleOwner) { mainGlobalData ->
+            viewModel.adapter.clear()
+            val mapOfEachCountryGroup = LinkedHashMap<String, EachCountryGroup>()
+            mainGlobalData.Countries?.forEach {country ->
+                Timber.d("viewModel countryName is ${country.Country}")
+                val eachCountryGroup = EachCountryGroup(country)
+                mapOfEachCountryGroup[country.CountryCode] = eachCountryGroup
             }
 
-            override fun onTick(millisUntilFinished: Long) {
-                actionBarScope.launch {
-                    (activity as MainActivity).supportActionBar?.title = "Summary"
-                }
-                try{
-                    viewModel.setAllCountries()
-                    adapter.data = viewModel.allCountriesData.value?.Countries as ArrayList<Country>?
-                }
-                catch (t: Throwable){
-                    Timber.e(t)
-                }
-                finally {
-                    viewModel.setAllCountries()
-                    adapter.data = viewModel.allCountriesData.value?.Countries as ArrayList<Country>?
-                }
+            mapOfEachCountryGroup.values.forEach {
+                Timber.d("map countryName is ${it.country?.Country}")
             }
+
+            val arrayOfEachCountryGroup = mapOfEachCountryGroup.values.toList() as ArrayList<EachCountryGroup>
+            arrayOfEachCountryGroup.sortBy { eachCountryGroup ->
+                eachCountryGroup.country?.Country
+            }
+
+            Timber.d("viewModel size is ${mainGlobalData.Countries?.size} and map size is ${mapOfEachCountryGroup.size} and arrayOfEachCountryGroup size is ${arrayOfEachCountryGroup.size}")
+
+            viewModel.adapter.updateAsync(arrayOfEachCountryGroup)
         }
-
-        timer.start()
-
-        binding.recyclerView.adapter = adapter
 
         return binding.root
     }
@@ -113,44 +71,11 @@ class AllCountriesFragment : Fragment() {
             val editText = searchView.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
             editText.hint = "Search Here"
 
-            searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    
-                    val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.hideSoftInputFromWindow(searchView.windowToken, 0)
-                    
-                    return true
-                }
-
-                override fun onQueryTextChange(newText: String?): Boolean {
-
-                    adapter.data?.clear()
-                    viewModel.setAllCountries()
-                    if (newText != null && newText.isNotEmpty()) {
-                        viewModel.allCountriesData.value?.let {
-                            for (country in it.Countries) {
-                                if (country.Country.toLowerCase(Locale.ROOT).contains(newText.toLowerCase(Locale.ROOT))){
-                                    adapter.data?.add(country)
-                                }
-                            }
-                            adapter.notifyDataSetChanged()
-                        }
-                    }
-                    else{
-                     adapter.data?.clear()
-                        adapter.data = viewModel.allCountriesData.value?.Countries as ArrayList<Country>?
-                    }
-
-                    return true
-                }
-            })
+            searchView.setOnQueryTextListener(viewModel.searchViewQueryListener(searchView))
         }
 
         return super.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        actionBarJob.cancel()
-    }
+
 }

@@ -4,13 +4,13 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
     buildToolsVersion "29.0.3"
 
     defaultConfig {
         applicationId "com.example.covid19moniterapp"
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
@@ -31,8 +31,12 @@ android {
         jvmTarget = '1.8'
     }
 
-    buildFeatures{
-        dataBinding = true
+//    buildFeatures{
+//        dataBinding = true
+//    }
+//
+    dataBinding {
+        enabled = true
     }
 }
 
@@ -40,9 +44,9 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.3.1'
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'com.google.android.material:material:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
     implementation 'androidx.navigation:navigation-fragment:2.3.0'
     implementation 'androidx.navigation:navigation-ui:2.3.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
@@ -50,12 +54,13 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.0'
     implementation 'androidx.preference:preference-ktx:1.1.1'
     testImplementation 'junit:junit:4.13'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     // Groupie
-    implementation "com.xwray:groupie:2.8.0"
-//    implementation "com.xwray:groupie-databinding:$groupie_version"
+    implementation "com.xwray:groupie:2.8.1"
+//    implementation "com.xwray:groupie-databinding:2.3.0"
+//    implementation project(":groupie-databinding-2.5.1")
     implementation 'com.xwray:groupie-kotlin-android-extensions:2.3.0'
 
     // Gson
@@ -67,11 +72,11 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
 
     // Moshi
-    implementation "com.squareup.moshi:moshi:$version_moshi"
+    implementation "com.squareup.moshi:moshi:1.9.3"
     implementation "com.squareup.moshi:moshi-kotlin:$version_moshi"
 
     // Retrofit
-    implementation "com.squareup.retrofit2:retrofit: $version_retrofit"
+    implementation "com.squareup.retrofit2:retrofit:2.6.2"
     implementation "com.squareup.retrofit2:converter-moshi:$version_retrofit"
     implementation "com.squareup.okhttp3:logging-interceptor:3.11.0"
 
@@ -86,6 +91,9 @@ dependencies {
 
     //Preferences
     implementation "androidx.preference:preference:1.1.1"
+
+    // Preferences DataStore
+    implementation "androidx.datastore:datastore-preferences:1.0.0-alpha01"
 
     // Timber
     implementation 'com.jakewharton.timber:timber:4.7.1'
