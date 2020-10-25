@@ -6,5 +6,11 @@
     <color name="colorAccent">#03DAC5</color>
     <color name="iconGray">#40E4DBDB</color>
     <color name="brightRed">#FF2400</color>
-    <color name="white">#FFF</color>
+    <color name="color_black">#525252</color>
+
+
+    <color name="light_grey">#DAD3D3</color>
+    <color name="line_grey">#EFECEC</color>
+    <color name="default_navbar_color">#737272</color>
+    <color name="dark_black">#272525</color>
 </resources>

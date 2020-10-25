@@ -5,23 +5,84 @@
 
     <data>
 
+        <import type="com.xwray.groupie.GroupieViewHolder"/>
+        <import type="com.xwray.groupie.GroupAdapter"/>
+        <import type="com.octagon_technologies.covid19moniterapp.Theme"/>
+
+        <variable
+            name="viewModel"
+            type="com.octagon_technologies.covid19moniterapp.ui.allCountries.AllCountriesViewModel" />
+
+        <variable
+            name="mainViewModel"
+            type="com.octagon_technologies.covid19moniterapp.main_activity.MainViewModel" />
+
+        <variable
+            name="groupAdapter"
+            type="GroupAdapter&lt;GroupieViewHolder&gt;" />
+
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorExtra"
-        tools:context=".ui.allCountries.AllCountriesFragment"
-        android:paddingBottom="60dp">
+        android:background="@android:color/white">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@{mainViewModel.theme == Theme.LIGHT ? @color/line_grey : @color/color_black}"
+            android:paddingBottom="@dimen/_8sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@color/color_black">
+
+            <EditText
+                android:id="@+id/search_query"
+                addCustomTextListener="@{viewModel.liveGlobal}"
+                addTheme="@{mainViewModel.theme}"
+                addGroupAdapter="@{groupAdapter}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:layout_marginRight="@dimen/_8sdp"
+                android:background="@drawable/find_location_background"
+                android:drawableStart="@drawable/ic_search_black"
+                android:drawableLeft="@drawable/ic_search_black"
+                android:drawablePadding="@dimen/_10sdp"
+                android:hint="@string/search_here_plain_text"
+                android:inputType="text"
+                android:padding="@dimen/_10sdp"
+                android:textColor="@color/dark_black"
+                android:textColorHint="@color/color_black"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+            android:id="@+id/allCountriesRecyclerView"
+            addGroupAdapter="@{groupAdapter}"
+            addTheme="@{mainViewModel.theme}"
+            getAllCountries="@{viewModel.liveGlobal}"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:background="@{mainViewModel.theme == Theme.LIGHT ? @android:color/white : @color/dark_black}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            tools:background="@color/dark_black"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

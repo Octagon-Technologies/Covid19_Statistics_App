@@ -4,24 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="com.octagon_technologies.covid19moniterapp.Theme"/>
+        <import type="androidx.lifecycle.LiveData"/>
+
+        <variable
+            name="theme"
+            type="Theme" />
         <variable
             name="eachCountry"
-            type="com.example.covid19moniterapp.network.allCountries.Country" />
+            type="com.octagon_technologies.covid19moniterapp.network.allCountries.EachCountry" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main_constraint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorExtra"
+        android:background="@android:color/transparent"
         android:paddingTop="10dp"
         android:paddingBottom="15dp">
 
         <TextView
             android:id="@+id/all_death_display_text"
             style="@style/all_display_style"
+            android:textColor="@{theme == Theme.LIGHT ? @color/dark_black : @android:color/white}"
+            android:text="@{String.valueOf(eachCountry.totalDeaths)}"
+            android:textSize="@dimen/_14ssp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{String.valueOf(eachCountry.TotalDeaths)}"
             app:layout_constraintBottom_toBottomOf="@+id/all_death_plain_text"
             app:layout_constraintStart_toEndOf="@+id/all_death_plain_text"
             tools:text="1000" />
@@ -30,6 +40,7 @@
             android:id="@+id/all_country_flag_image"
             android:layout_width="70dp"
             android:layout_height="70dp"
+            loadCountryFlag="@{eachCountry.countryCode}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline2"
             app:layout_constraintStart_toStartOf="parent"
@@ -42,14 +53,15 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
             android:maxWidth="100dp"
+            android:textColor="@{theme == Theme.LIGHT ? @color/dark_black : @android:color/white}"
             android:text="@{eachCountry.country}"
-            android:textColor="#FFF"
-            android:textSize="16sp"
+            android:textSize="@dimen/_14ssp"
             app:layout_constraintBottom_toTopOf="@+id/all_country_flag_image"
             app:layout_constraintEnd_toEndOf="@+id/all_country_flag_image"
             app:layout_constraintStart_toStartOf="@+id/all_country_flag_image"
             app:layout_constraintWidth_max="100dp"
-            tools:text="Belgium" />
+            tools:text="Belgium"
+            tools:textColor="@android:color/white"/>
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline2"
@@ -60,40 +72,39 @@
 
         <TextView
             android:id="@+id/all_recovered_plain_text"
-            style="@style/all_plain_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Recovered: "
+            android:textColor="@{theme == Theme.LIGHT ? @color/dark_black : @android:color/white}"
+            android:textSize="@dimen/_14ssp"
+            android:fontFamily="sans-serif-condensed"
+            tools:textColor="@android:color/white"
+            android:text="@string/recovered_plain_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toBottomOf="@+id/all_death_plain_text" />
-
-        <TextView
-            android:id="@+id/all_recovered_display_text"
-            style="@style/all_display_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{String.valueOf(eachCountry.TotalRecovered)}"
-            app:layout_constraintBottom_toBottomOf="@+id/all_recovered_plain_text"
-            app:layout_constraintStart_toEndOf="@+id/all_recovered_plain_text"
-            tools:text="3000" />
+            app:layout_constraintTop_toBottomOf="@+id/all_death_plain_text"/>
 
         <TextView
             android:id="@+id/all_death_plain_text"
-            style="@style/all_plain_style"
+            android:textColor="@{theme == Theme.LIGHT ? @color/dark_black : @android:color/white}"
+            android:textSize="@dimen/_14ssp"
+            android:fontFamily="sans-serif-condensed"
+            tools:textColor="@android:color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Deaths: "
+            android:text="@string/deaths_plain_text"
             app:layout_constraintBottom_toTopOf="@+id/all_recovered_plain_text"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toBottomOf="@+id/all_cases_plain_text" />
 
         <TextView
             android:id="@+id/all_cases_plain_text"
-            style="@style/all_plain_style"
+            android:textColor="@{theme == Theme.LIGHT ? @color/dark_black : @android:color/white}"
+            android:textSize="@dimen/_14ssp"
+            android:fontFamily="sans-serif-condensed"
+            tools:textColor="@android:color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Confirmed: "
+            android:text="@string/confirmed_plain_text"
             app:layout_constraintBottom_toTopOf="@+id/all_death_plain_text"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toTopOf="parent" />
@@ -103,9 +114,24 @@
             style="@style/all_display_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{String.valueOf(eachCountry.TotalConfirmed)}"
+            android:textColor="@{theme == Theme.LIGHT ? @color/dark_black : @android:color/white}"
+            android:text="@{String.valueOf(eachCountry.totalConfirmed)}"
+            android:textSize="@dimen/_14ssp"
             app:layout_constraintBottom_toBottomOf="@+id/all_cases_plain_text"
             app:layout_constraintStart_toEndOf="@+id/all_cases_plain_text"
-            tools:text="100000" />
+            tools:text="100000"
+            tools:textColor="@android:color/white"/>
+
+        <TextView
+            android:id="@+id/all_recovered_display_text"
+            style="@style/all_display_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{String.valueOf(eachCountry.totalRecovered)}"
+            android:textColor="@{theme == Theme.LIGHT ? @color/dark_black : @android:color/white}"
+            android:textSize="@dimen/_14ssp"
+            app:layout_constraintBottom_toBottomOf="@+id/all_recovered_plain_text"
+            app:layout_constraintStart_toEndOf="@+id/all_recovered_plain_text"
+            tools:text="3000" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
