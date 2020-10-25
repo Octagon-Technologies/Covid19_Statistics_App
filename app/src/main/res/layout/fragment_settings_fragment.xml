@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.octagon_technologies.covid19moniterapp.Theme" />
+        <import type="com.octagon_technologies.covid19moniterapp.IconType"/>
+
+
+        <variable
+            name="viewModel"
+            type="com.octagon_technologies.covid19moniterapp.main_activity.MainViewModel" />
+
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/basic_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:elevation="8dp"
+        tools:background="@android:color/white"
+        tools:targetApi="lollipop">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="@dimen/_250sdp"
+            android:layout_height="match_parent"
+            android:background="@{viewModel.theme == Theme.DARK ? @color/dark_black : @android:color/white}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/app_name"
+                android:textColor="@{ viewModel.theme == Theme.LIGHT ? @color/dark_black : @android:color/white}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@android:color/transparent"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:text="@string/app_name"
+                android:textSize="@dimen/_17ssp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:textColor="@color/dark_black" />
+
+            <View
+                android:id="@+id/top_line"
+                android:layout_width="0dp"
+                android:layout_height="0.1dp"
+                android:layout_marginTop="@dimen/_14sdp"
+                android:background="#E1E1E1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/app_name" />
+
+            <TextView
+                android:id="@+id/change_theme_btn"
+                android:textColor="@{ viewModel.theme == Theme.LIGHT ? @color/dark_black : @android:color/white}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginLeft="@dimen/_12sdp"
+                android:background="@android:color/transparent"
+                android:fontFamily="sans-serif-condensed"
+                android:padding="@dimen/_8sdp"
+                android:text="@string/change_theme_plain_text"
+                android:textSize="@dimen/_14ssp"
+                app:layout_constraintBottom_toBottomOf="@+id/change_theme_icon"
+                app:layout_constraintStart_toEndOf="@+id/change_theme_icon"
+                app:layout_constraintTop_toTopOf="@+id/change_theme_icon"
+                tools:textColor="@color/dark_black" />
+
+            <ImageView
+                android:id="@+id/change_theme_icon"
+                getImageIcon="@{viewModel.theme}"
+                iconType="@{IconType.Settings}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginLeft="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:background="@android:color/transparent"
+                android:importantForAccessibility="no"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/top_line"
+                tools:src="@drawable/ic_settings_black" />
+
+            <View
+                android:id="@+id/bottom_line"
+                android:layout_width="0dp"
+                android:layout_height="0.1dp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="#D1CDCD"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/theme_layout" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/theme_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/change_theme_btn"
+                app:layout_constraintTop_toBottomOf="@+id/change_theme_btn"
+                tools:visibility="visible">
+
+
+                <Button
+                    android:id="@+id/light_btn"
+                    addLightViewModel="@{viewModel}"
+                    changeLightBackground="@{viewModel.theme}"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/color_black"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/light_plain_text"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <Button
+                    android:id="@+id/dark_btn"
+                    addDarkViewModel="@{viewModel}"
+                    changeDarkBackground="@{viewModel.theme}"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:text="@string/dark_plain_text"
+                    android:textAllCaps="false"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/light_btn"
+                    tools:textColor="@color/dark_black" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Button
+                android:id="@+id/contact_us_btn"
+                android:textColor="@{ viewModel.theme == Theme.LIGHT ? @color/dark_black : @android:color/white}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginLeft="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:background="@android:color/transparent"
+                android:fontFamily="sans-serif"
+                android:text="@string/contact_us_plain_text"
+                android:textAllCaps="false"
+                android:textSize="@dimen/_14ssp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bottom_line"
+                tools:textColor="@color/dark_black" />
+
+            <Button
+                android:id="@+id/rate_this_app_btn"
+                android:textColor="@{ viewModel.theme == Theme.LIGHT ? @color/dark_black : @android:color/white}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginLeft="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:background="@android:color/transparent"
+                android:fontFamily="sans-serif"
+                android:text="@string/rate_this_app_plain_text"
+                android:textAllCaps="false"
+                android:textSize="@dimen/_14ssp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/contact_us_btn"
+                tools:textColor="@color/dark_black" />
+
+            <TextView
+                android:id="@+id/icons_by_flaticon_plain_text"
+                android:textColor="@{ viewModel.theme == Theme.LIGHT ? @color/dark_black : @android:color/white}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_16sdp"
+                android:background="@android:color/transparent"
+                android:text="@string/icons_by_flaticon_plain_text"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:textColor="@color/dark_black" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

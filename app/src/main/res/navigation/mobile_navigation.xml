@@ -1,20 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
     app:startDestination="@id/currentFragment">
 
     <fragment
-        android:id="@+id/settingsFragment"
-        android:name="com.example.covid19moniterapp.ui.FragmentSettings"
-        android:label="@string/title_settings" />
-    <fragment
         android:id="@+id/allCountriesFragment"
-        android:name="com.example.covid19moniterapp.ui.allCountries.AllCountriesFragment"
-        android:label="Summary" />
+        android:name="com.octagon_technologies.covid19moniterapp.ui.allCountries.AllCountriesFragment"
+        android:label="Summary"
+        tools:layout="@layout/fragment_all_countries">
+        <action
+            android:id="@+id/action_allCountriesFragment_to_currentFragment"
+            app:destination="@id/currentFragment" />
+    </fragment>
     <fragment
         android:id="@+id/currentFragment"
-        android:name="com.example.covid19moniterapp.ui.currentCountry.CurrentCountryFragment"
-        android:label="CurrentFragment" />
-
+        android:name="com.octagon_technologies.covid19moniterapp.ui.currentCountry.CurrentCountryFragment"
+        android:label="CurrentFragment"
+        tools:layout="@layout/fragment_current_country">
+        <argument
+            android:name="countryName"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null"/>
+    </fragment>
+    <fragment
+        android:id="@+id/findLocationFragment"
+        android:name="com.octagon_technologies.covid19moniterapp.ui.find_location.FindLocationFragment"
+        android:label="FindLocationFragment"
+        tools:layout="@layout/find_location_fragment">
+        <action
+            android:id="@+id/action_findLocationFragment_to_searchLocationFragment"
+            app:destination="@id/searchLocationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchLocationFragment"
+        android:name="com.octagon_technologies.covid19moniterapp.ui.search_location.SearchLocationFragment"
+        android:label="SearchLocationFragment"
+        tools:layout="@layout/search_location_fragment">
+        <action
+            android:id="@+id/action_searchLocationFragment_to_currentFragment"
+            app:destination="@id/currentFragment" />
+    </fragment>
 </navigation>

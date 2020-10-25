@@ -5,176 +5,463 @@
 
     <data>
 
+        <import type="androidx.lifecycle.LiveData" />
+
+        <import type="android.view.View" />
+
+        <import type="com.octagon_technologies.covid19moniterapp.IconType"/>
+
+        <import type="com.octagon_technologies.covid19moniterapp.Status" />
+
+        <import type="com.octagon_technologies.covid19moniterapp.Theme" />
+
+        <variable
+            name="status"
+            type="LiveData&lt;Status&gt;" />
+
+        <variable
+            name="liveCountryCode"
+            type="LiveData&lt;String&gt;" />
+
+        <variable
+            name="theme"
+            type="LiveData&lt;Theme&gt;" />
+
+        <variable
+            name="selectedCountryName"
+            type="String" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorExtra"
-        android:paddingBottom="60dp">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/country_flag_image"
-            android:layout_width="140dp"
-            android:layout_height="140dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="24dp"
-            tools:srcCompat="@drawable/belgium_flag"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@{theme == Theme.LIGHT ? @android:color/white : @color/dark_black}"
+            tools:background="@android:color/white">
 
 
-        <TextView
-            android:id="@+id/confirmed_cases_plain_text"
-            style="@style/plain_text_style"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="2dp"
-            android:text="Confirmed cases: "
-            app:layout_constraintBottom_toTopOf="@+id/recovered_plain_text"
-            app:layout_constraintStart_toEndOf="@+id/country_flag_image"
-            app:layout_constraintTop_toBottomOf="@+id/new_recovered_plain_text" />
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:visibility="@{status == Status.DONE ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/each_country_toolbar"
+                tools:background="@android:color/white">
 
-        <TextView
-            android:id="@+id/recovered_plain_text"
-            style="@style/plain_text_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:text="Recovered: "
-            app:layout_constraintBottom_toTopOf="@+id/total_deaths_plain_text"
-            app:layout_constraintStart_toStartOf="@+id/confirmed_cases_plain_text"
-            app:layout_constraintTop_toBottomOf="@+id/confirmed_cases_plain_text" />
 
-        <TextView
-            android:id="@+id/total_deaths_plain_text"
-            style="@style/plain_text_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:text="Deaths: "
-            app:layout_constraintBottom_toBottomOf="@+id/country_flag_image"
-            app:layout_constraintStart_toStartOf="@+id/confirmed_cases_plain_text"
-            app:layout_constraintTop_toBottomOf="@+id/recovered_plain_text" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/main_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:background="@android:color/white">
 
-        <TextView
-            android:id="@+id/cases_display_text"
-            style="@style/display_text_style"
-            android:layout_marginStart="6dp"
-            app:layout_constraintBottom_toBottomOf="@+id/confirmed_cases_plain_text"
-            app:layout_constraintStart_toEndOf="@+id/confirmed_cases_plain_text"
-            app:layout_constraintTop_toTopOf="@+id/confirmed_cases_plain_text"
-            tools:text="10, 791" />
 
-        <TextView
-            android:id="@+id/total_recovered_display_text"
-            style="@style/display_text_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            app:layout_constraintBottom_toBottomOf="@+id/recovered_plain_text"
-            app:layout_constraintStart_toEndOf="@+id/recovered_plain_text"
-            app:layout_constraintTop_toTopOf="@+id/recovered_plain_text"
-            tools:text="3000" />
+                    <ImageView
+                        android:id="@+id/country_flag_image"
+                        android:layout_width="@dimen/_120sdp"
+                        android:layout_height="@dimen/_100sdp"
+                        android:importantForAccessibility="no"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:srcCompat="@drawable/belgium_flag" />
 
-        <TextView
-            android:id="@+id/total_death_display_text"
-            style="@style/display_text_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            app:layout_constraintBottom_toBottomOf="@+id/total_deaths_plain_text"
-            app:layout_constraintStart_toEndOf="@+id/total_deaths_plain_text"
-            app:layout_constraintTop_toTopOf="@+id/total_deaths_plain_text"
-            tools:text="202" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/current_recycler_view"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="70dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/country_flag_image" />
+                    <TextView
+                        android:id="@+id/total_cases_plain_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:text="@string/total_cases_plain_text"
+                        android:textColor="@{theme == Theme.DARK ? @android:color/white : @color/dark_black}"
+                        android:textSize="@dimen/_14ssp"
+                        app:layout_constraintStart_toStartOf="@+id/recent_plain_text"
+                        app:layout_constraintTop_toBottomOf="@+id/new_cases_plain_text"
+                        tools:textColor="@color/dark_black" />
 
-        <TextView
-            android:id="@+id/history_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="History"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/current_recycler_view"
-            app:layout_constraintStart_toStartOf="parent" />
+                    <TextView
+                        android:id="@+id/recovered_plain_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:text="@string/recovered_plain_text"
+                        android:textColor="@{theme == Theme.DARK ? @android:color/white : @color/dark_black}"
+                        android:textSize="@dimen/_14ssp"
+                        app:layout_constraintStart_toStartOf="@+id/total_cases_plain_text"
+                        app:layout_constraintTop_toBottomOf="@+id/total_cases_plain_text"
+                        tools:textColor="@color/dark_black" />
 
-        <TextView
-            android:id="@+id/new_cases_plain_text"
-            style="@style/plain_text_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:text="New Cases: "
-            app:layout_constraintBottom_toTopOf="@+id/new_recovered_plain_text"
-            app:layout_constraintStart_toStartOf="@+id/confirmed_cases_plain_text"
-            app:layout_constraintTop_toTopOf="@+id/country_flag_image" />
+                    <TextView
+                        android:id="@+id/total_deaths_plain_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-condensed"
+                        android:text="@string/deaths_plain_text"
+                        android:textColor="@{theme == Theme.DARK ? @android:color/white : @color/dark_black}"
+                        android:textSize="@dimen/_14ssp"
+                        app:layout_constraintBottom_toBottomOf="@+id/recovered_plain_text"
+                        app:layout_constraintStart_toStartOf="@+id/new_deaths_plain_text"
+                        app:layout_constraintTop_toTopOf="@+id/recovered_plain_text"
+                        tools:textColor="@color/dark_black" />
 
-        <TextView
-            android:id="@+id/new_recovered_plain_text"
-            style="@style/plain_text_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:text="New Recoveries: "
-            app:layout_constraintBottom_toTopOf="@+id/confirmed_cases_plain_text"
-            app:layout_constraintStart_toStartOf="@+id/confirmed_cases_plain_text"
-            app:layout_constraintTop_toBottomOf="@+id/new_cases_plain_text" />
+                    <TextView
+                        android:id="@+id/total_cases_display_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_6sdp"
+                        android:layout_marginLeft="@dimen/_6sdp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:textColor="@{theme == Theme.DARK ? @android:color/white : @color/dark_black}"
+                        android:textSize="@dimen/_14ssp"
+                        app:layout_constraintBottom_toBottomOf="@+id/total_cases_plain_text"
+                        app:layout_constraintStart_toEndOf="@+id/total_cases_plain_text"
+                        app:layout_constraintTop_toTopOf="@+id/total_cases_plain_text"
+                        tools:text="1200000"
+                        tools:textColor="@color/dark_black" />
 
-        <TextView
-            android:id="@+id/new_recoveries_display_text"
-            style="@style/display_text_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            app:layout_constraintBottom_toBottomOf="@+id/new_recovered_plain_text"
-            app:layout_constraintStart_toEndOf="@+id/new_recovered_plain_text"
-            app:layout_constraintTop_toTopOf="@+id/new_recovered_plain_text"
-            tools:text="100" />
+                    <TextView
+                        android:id="@+id/total_recovered_display_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_6sdp"
+                        android:layout_marginLeft="@dimen/_6sdp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:textColor="@{theme == Theme.DARK ? @android:color/white : @color/dark_black}"
+                        android:textSize="@dimen/_14ssp"
+                        app:layout_constraintBottom_toBottomOf="@+id/recovered_plain_text"
+                        app:layout_constraintStart_toEndOf="@+id/recovered_plain_text"
+                        app:layout_constraintTop_toTopOf="@+id/recovered_plain_text"
+                        tools:text="3000"
+                        tools:textColor="@color/dark_black" />
 
-        <TextView
-            android:id="@+id/new_cases_display_text"
-            style="@style/display_text_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            app:layout_constraintBottom_toBottomOf="@+id/new_cases_plain_text"
-            app:layout_constraintStart_toEndOf="@+id/new_cases_plain_text"
-            app:layout_constraintTop_toTopOf="@+id/new_cases_plain_text"
-            tools:text="437" />
+                    <TextView
+                        android:id="@+id/total_death_display_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_6sdp"
+                        android:layout_marginLeft="@dimen/_6sdp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:textColor="@{theme == Theme.DARK ? @android:color/white : @color/dark_black}"
+                        android:textSize="@dimen/_14ssp"
+                        app:layout_constraintBottom_toBottomOf="@+id/total_deaths_plain_text"
+                        app:layout_constraintStart_toEndOf="@+id/total_deaths_plain_text"
+                        app:layout_constraintTop_toTopOf="@+id/total_deaths_plain_text"
+                        tools:text="2020000"
+                        tools:textColor="@color/dark_black" />
 
-        <TextView
-            android:id="@+id/textView"
-            style="@style/display_text_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sort"
-            app:layout_constraintBottom_toBottomOf="@+id/sort_spinner"
-            app:layout_constraintEnd_toStartOf="@+id/sort_spinner"
-            app:layout_constraintTop_toTopOf="@+id/sort_spinner" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/history_recycler_view"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginLeft="@dimen/_6sdp"
+                        android:layout_marginTop="@dimen/_6sdp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginRight="@dimen/_6sdp"
+                        android:background="@android:color/transparent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/history_text" />
 
-        <Spinner
-            android:id="@+id/sort_spinner"
-            android:layout_width="90dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
-            android:background="@color/colorExtra"
-            android:minHeight="20dp"
-            android:popupBackground="@color/colorExtra"
-            android:spinnerMode="dropdown"
-            app:layout_constraintBottom_toBottomOf="@+id/history_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/history_text" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/history_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_24sdp"
+                        android:text="@string/history_plain_text"
+                        android:textColor="@{theme == Theme.DARK ? @android:color/white : @color/dark_black}"
+                        android:textSize="@dimen/_14ssp"
+                        app:layout_constraintStart_toStartOf="@+id/ranking_plain_text"
+                        app:layout_constraintTop_toBottomOf="@+id/deaths_plain_text"
+                        tools:textColor="@color/dark_black" />
+
+                    <TextView
+                        android:id="@+id/new_cases_plain_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:text="@string/new_cases_plain_text"
+                        android:textColor="@{theme == Theme.DARK ? @android:color/white : @color/dark_black}"
+                        android:textSize="@dimen/_14ssp"
+                        app:layout_constraintStart_toStartOf="@+id/total_cases_plain_text"
+                        app:layout_constraintTop_toBottomOf="@+id/recent_plain_text"
+                        tools:textColor="@color/dark_black" />
+
+                    <TextView
+                        android:id="@+id/new_recovered_plain_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginRight="@dimen/_2sdp"
+                        android:layout_marginBottom="2dp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:text="@string/new_recoveries_plain_text"
+                        android:textColor="@{theme == Theme.DARK ? @android:color/white : @color/dark_black}"
+                        android:textSize="@dimen/_14ssp"
+                        app:layout_constraintBottom_toBottomOf="@+id/new_cases_plain_text"
+                        app:layout_constraintEnd_toStartOf="@+id/new_recoveries_display_text"
+                        app:layout_constraintTop_toTopOf="@+id/new_cases_plain_text"
+                        tools:textColor="@color/dark_black" />
+
+                    <TextView
+                        android:id="@+id/new_recoveries_display_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_6sdp"
+                        android:layout_marginRight="@dimen/_6sdp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:textColor="@{theme == Theme.DARK ? @android:color/white : @color/dark_black}"
+                        android:textSize="@dimen/_14ssp"
+                        app:layout_constraintBottom_toBottomOf="@+id/new_recovered_plain_text"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/new_recovered_plain_text"
+                        tools:text="10000"
+                        tools:textColor="@color/dark_black" />
+
+                    <TextView
+                        android:id="@+id/new_cases_display_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_6sdp"
+                        android:layout_marginLeft="@dimen/_6sdp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:textColor="@{theme == Theme.DARK ? @android:color/white : @color/dark_black}"
+                        android:textSize="@dimen/_14ssp"
+                        app:layout_constraintBottom_toBottomOf="@+id/new_cases_plain_text"
+                        app:layout_constraintStart_toEndOf="@+id/new_cases_plain_text"
+                        app:layout_constraintTop_toTopOf="@+id/new_cases_plain_text"
+                        tools:text="43700"
+                        tools:textColor="@color/dark_black" />
+
+                    <TextView
+                        android:id="@+id/recent_plain_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginLeft="@dimen/_14sdp"
+                        android:layout_marginTop="@dimen/_16sdp"
+                        android:text="@string/recent_plain_text"
+                        android:textColor="@{theme == Theme.DARK ? @android:color/white : @color/dark_black}"
+                        android:textSize="@dimen/_14ssp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/country_flag_image"
+                        tools:textColor="@color/dark_black" />
+
+                    <TextView
+                        android:id="@+id/ranking_plain_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginLeft="@dimen/_14sdp"
+                        android:layout_marginTop="@dimen/_26sdp"
+                        android:fontFamily="@font/coda"
+                        android:text="@string/ranking_plain_text"
+                        android:textColor="@{theme == Theme.DARK ? @android:color/white : @color/dark_black}"
+                        android:textSize="@dimen/_14ssp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/recovered_plain_text"
+                        tools:textColor="@color/dark_black" />
+
+                    <TextView
+                        android:id="@+id/new_deaths_plain_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-condensed"
+                        android:text="@string/new_deaths_plain_text"
+                        android:textColor="@{theme == Theme.DARK ? @android:color/white : @color/dark_black}"
+                        android:textSize="@dimen/_14ssp"
+                        app:layout_constraintBottom_toBottomOf="@+id/total_cases_plain_text"
+                        app:layout_constraintStart_toStartOf="@+id/new_recovered_plain_text"
+                        app:layout_constraintTop_toTopOf="@+id/total_cases_plain_text"
+                        tools:textColor="@color/dark_black" />
+
+                    <TextView
+                        android:id="@+id/new_death_display_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_6sdp"
+                        android:layout_marginLeft="@dimen/_6sdp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:textColor="@{theme == Theme.DARK ? @android:color/white : @color/dark_black}"
+                        android:textSize="@dimen/_14ssp"
+                        app:layout_constraintStart_toEndOf="@+id/new_deaths_plain_text"
+                        app:layout_constraintTop_toTopOf="@+id/new_deaths_plain_text"
+                        tools:text="20000"
+                        tools:textColor="@color/dark_black" />
+
+                    <TextView
+                        android:id="@+id/recovery_plain_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_6sdp"
+                        android:fontFamily="sans-serif"
+                        android:text="@string/highest_recovery_plain_text"
+                        android:textColor="@{theme == Theme.DARK ? @android:color/white : @color/dark_black}"
+                        android:textSize="@dimen/_13ssp"
+                        app:layout_constraintStart_toStartOf="@+id/ranking_plain_text"
+                        app:layout_constraintTop_toBottomOf="@+id/infection_plain_text"
+                        tools:textColor="@color/dark_black" />
+
+                    <TextView
+                        android:id="@+id/deaths_plain_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_6sdp"
+                        android:fontFamily="sans-serif"
+                        android:text="@string/highest_deaths_plain_text"
+                        android:textColor="@{theme == Theme.DARK ? @android:color/white : @color/dark_black}"
+                        android:textSize="@dimen/_13ssp"
+                        app:layout_constraintStart_toStartOf="@+id/recovery_plain_text"
+                        app:layout_constraintTop_toBottomOf="@+id/recovery_plain_text"
+                        tools:textColor="@color/dark_black" />
+
+                    <TextView
+                        android:id="@+id/infection_plain_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_4sdp"
+                        android:fontFamily="sans-serif"
+                        android:text="@string/highest_infections_plain_text"
+                        android:textColor="@{theme == Theme.DARK ? @android:color/white : @color/dark_black}"
+                        android:textSize="@dimen/_13ssp"
+                        app:layout_constraintStart_toStartOf="@+id/ranking_plain_text"
+                        app:layout_constraintTop_toBottomOf="@+id/ranking_plain_text"
+                        tools:textColor="@color/dark_black" />
+
+
+                    <TextView
+                        android:id="@+id/infection_ranking"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_6sdp"
+                        android:layout_marginLeft="@dimen/_6sdp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:textColor="@{theme == Theme.DARK ? @android:color/white : @color/dark_black}"
+                        android:textSize="@dimen/_14ssp"
+                        app:layout_constraintBottom_toBottomOf="@+id/infection_plain_text"
+                        app:layout_constraintStart_toEndOf="@+id/infection_plain_text"
+                        app:layout_constraintTop_toTopOf="@+id/infection_plain_text"
+                        tools:text="114 out of 274"
+                        tools:textColor="@color/dark_black" />
+
+
+                    <TextView
+                        android:id="@+id/recovery_ranking"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_6sdp"
+                        android:layout_marginLeft="@dimen/_6sdp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:textColor="@{theme == Theme.DARK ? @android:color/white : @color/dark_black}"
+                        android:textSize="@dimen/_14ssp"
+                        app:layout_constraintBottom_toBottomOf="@+id/recovery_plain_text"
+                        app:layout_constraintStart_toEndOf="@+id/recovery_plain_text"
+                        app:layout_constraintTop_toTopOf="@+id/recovery_plain_text"
+                        tools:text="5 out of 274"
+                        tools:textColor="@color/dark_black" />
+
+
+                    <TextView
+                        android:id="@+id/death_ranking"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_6sdp"
+                        android:layout_marginLeft="@dimen/_6sdp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:textColor="@{theme == Theme.DARK ? @android:color/white : @color/dark_black}"
+                        android:textSize="@dimen/_14ssp"
+                        app:layout_constraintBottom_toBottomOf="@+id/deaths_plain_text"
+                        app:layout_constraintStart_toEndOf="@+id/deaths_plain_text"
+                        app:layout_constraintTop_toTopOf="@+id/deaths_plain_text"
+                        tools:text="14 out of 274"
+                        tools:textColor="@color/dark_black" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+            <ImageView
+                android:id="@+id/loading_image"
+                android:layout_width="@dimen/_200sdp"
+                android:layout_height="@dimen/_200sdp"
+                android:background="@{theme == Theme.LIGHT ? @android:color/white : @color/dark_black}"
+                android:contentDescription="@string/loading_plain_text"
+                android:visibility="@{status == Status.LOADING ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/loading_animation"
+                tools:visibility="gone" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/each_country_toolbar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:visibility="@{selectedCountryName.length() > 1 ? View.VISIBLE : View.GONE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/each_country_back_btn"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:background="@android:color/transparent"
+                    android:importantForAccessibility="no"
+                    android:padding="@dimen/_4sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:srcCompat="@drawable/ic_arrow_back_dark"
+                    iconType="@{IconType.BackBtn}"
+                    getImageIcon="@{theme}"
+                     />
+
+                <TextView
+                    android:id="@+id/each_country_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:text="@{selectedCountryName}"
+                    android:textColor="@{theme == Theme.LIGHT ? @android:color/black : @android:color/white}"
+                    android:textSize="@dimen/_14ssp"
+                    app:layout_constraintBottom_toBottomOf="@+id/each_country_back_btn"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/each_country_back_btn"
+                    tools:text="Spain"
+                    tools:textColor="@android:color/black" />
+
+                <View
+                    android:id="@+id/each_country_bottom_line"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@color/line_grey"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/each_country_back_btn" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

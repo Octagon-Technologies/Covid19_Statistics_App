@@ -10,10 +10,6 @@
         android:id="@+id/allCountriesFragment"
         android:icon="@drawable/ic_public"
         android:title="@string/title_all_countries" />
-    <item
-        android:id="@+id/settingsFragment"
-        android:icon="@drawable/ic_settings"
-        android:title="@string/title_settings" />
 
 
 </menu>
