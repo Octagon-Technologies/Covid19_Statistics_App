@@ -5,11 +5,11 @@
 
     <data>
 
-        <import type="com.octagon_technologies.covid19moniterapp.Theme" />
+        <import type="com.octagon_technologies.covid19_statistics_app.Theme" />
 
         <import type="androidx.lifecycle.LiveData" />
 
-        <import type="com.octagon_technologies.covid19moniterapp.IconType"/>
+        <import type="com.octagon_technologies.covid19_statistics_app.IconType"/>
 
         <variable
             name="theme"
@@ -47,9 +47,9 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:menu="@menu/bottom_nav_menu"
-            tools:background="@color/color_black"
-            tools:itemIconTint="@drawable/dark_bottom_nav_item_tint"
-            tools:itemTextColor="@drawable/dark_bottom_nav_item_tint" />
+            tools:background="@android:color/white"
+            tools:itemIconTint="@drawable/bottom_nav_item_tint"
+            tools:itemTextColor="@drawable/bottom_nav_item_tint" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/top_toolbar"
@@ -75,8 +75,6 @@
 
             <TextView
                 android:id="@+id/country_name"
-                getImageIcon="@{theme}"
-                iconType="@{IconType.ArrowDown}"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginStart="@dimen/_24sdp"

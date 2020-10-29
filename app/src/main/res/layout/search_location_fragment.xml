@@ -5,25 +5,21 @@
 
     <data>
 
-        <import type="androidx.lifecycle.LiveData" />
+        <import type="com.octagon_technologies.covid19_statistics_app.IconType" />
 
-        <import type="java.util.ArrayList" />
-
-        <import type="com.octagon_technologies.covid19moniterapp.IconType" />
-
-        <import type="com.octagon_technologies.covid19moniterapp.Theme" />
+        <import type="com.octagon_technologies.covid19_statistics_app.Theme" />
 
         <variable
             name="findLocationViewModel"
-            type="com.octagon_technologies.covid19moniterapp.ui.find_location.FindLocationViewModel" />
-
-        <variable
-            name="fragmentLifecycleOwner"
-            type="androidx.lifecycle.LifecycleOwner" />
+            type="com.octagon_technologies.covid19_statistics_app.ui.find_location.FindLocationViewModel" />
 
         <variable
             name="theme"
-            type="LiveData&lt;Theme&gt;" />
+            type="Theme" />
+
+        <variable
+            name="navController"
+            type="androidx.navigation.NavController" />
 
     </data>
 
@@ -76,6 +72,7 @@
                 android:fontFamily="@font/roboto_medium"
                 android:text="@string/cancel_plain_text"
                 android:textAllCaps="false"
+                android:onClick="@{() -> navController.popBackStack()}"
                 android:textColor="@{theme == Theme.LIGHT ? @color/color_black : @android:color/white}"
                 android:textSize="@dimen/_12ssp"
                 app:layout_constraintBottom_toBottomOf="@+id/search_query"
@@ -85,10 +82,9 @@
 
             <Button
                 android:id="@+id/use_current_location_btn"
-                getFindLocationViewModel="@{findLocationViewModel}"
                 getImageIcon="@{theme}"
-                getLifecycleOwner="@{fragmentLifecycleOwner}"
                 iconType="@{IconType.Checked}"
+                android:onClick="@{() -> findLocationViewModel.checkIfPermissionIsGranted()}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"

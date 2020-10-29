@@ -21,9 +21,10 @@
 #-renamesourcefileattribute SourceFile
 
 
-#-keep class kotlin.Metadata { *; }
+-keep class kotlin.Metadata { *; }
 #
 #-skipnonpubliclibraryclasses
--keep class com.squareup.moshi.kotlin.reflect.KotlinJsonAdapter
--keep class com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterKt
--keep class com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+-keep class com.squareup.moshi.Json
+-keep class com.squareup.moshi.JsonClass
+
+

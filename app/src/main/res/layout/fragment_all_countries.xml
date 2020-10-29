@@ -7,15 +7,15 @@
 
         <import type="com.xwray.groupie.GroupieViewHolder"/>
         <import type="com.xwray.groupie.GroupAdapter"/>
-        <import type="com.octagon_technologies.covid19moniterapp.Theme"/>
+        <import type="com.octagon_technologies.covid19_statistics_app.Theme"/>
 
         <variable
             name="viewModel"
-            type="com.octagon_technologies.covid19moniterapp.ui.allCountries.AllCountriesViewModel" />
+            type="com.octagon_technologies.covid19_statistics_app.ui.allCountries.AllCountriesViewModel" />
 
         <variable
             name="mainViewModel"
-            type="com.octagon_technologies.covid19moniterapp.main_activity.MainViewModel" />
+            type="com.octagon_technologies.covid19_statistics_app.main_activity.MainViewModel" />
 
         <variable
             name="groupAdapter"
@@ -43,9 +43,6 @@
 
             <EditText
                 android:id="@+id/search_query"
-                addCustomTextListener="@{viewModel.liveGlobal}"
-                addTheme="@{mainViewModel.theme}"
-                addGroupAdapter="@{groupAdapter}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_12sdp"
@@ -69,6 +66,19 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/loading_image"
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="@dimen/_200sdp"
+            android:contentDescription="@string/loading_plain_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            getStatusIcon="@{viewModel.status}"
+            addTheme="@{mainViewModel.theme}"
+            tools:visibility="gone" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/allCountriesRecyclerView"
