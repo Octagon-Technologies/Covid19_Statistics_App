@@ -9,18 +9,23 @@
 
         <import type="androidx.lifecycle.LiveData" />
 
-        <import type="com.octagon_technologies.covid19moniterapp.Theme" />
+        <import type="com.octagon_technologies.covid19_statistics_app.Theme" />
 
         <import type="java.util.ArrayList" />
 
-        <import type="com.octagon_technologies.covid19moniterapp.network.reverse_geocoding_location.ReverseGeoCodingLocation" />
+        <import type="com.octagon_technologies.covid19_statistics_app.network.reverse_geocoding_location.ReverseGeoCodingLocation" />
+
+        <import type="com.octagon_technologies.covid19_statistics_app.SettingsDataStore"/>
+        <variable
+            name="settingsDataStore"
+            type="SettingsDataStore"/>
 
         <variable
             name="reversedGeoCodingLocation"
             type="LiveData&lt;ReverseGeoCodingLocation&gt;" />
 
 
-        <import type="com.octagon_technologies.covid19moniterapp.IconType"/>
+        <import type="com.octagon_technologies.covid19_statistics_app.IconType" />
 
 
         <variable
@@ -28,12 +33,8 @@
             type="LiveData&lt;Boolean&gt;" />
 
         <variable
-            name="favouriteLocationsList"
-            type="LiveData&lt;ArrayList&lt;String&gt;&gt;" />
-
-        <variable
             name="theme"
-            type="LiveData&lt;Theme&gt;" />
+            type="Theme" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -84,22 +85,6 @@
                 app:layout_constraintTop_toTopOf="@+id/close_btn"
                 tools:textColor="@android:color/white" />
 
-            <TextView
-                android:id="@+id/temp_unit_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="1dp"
-                android:fontFamily="@font/roboto_medium"
-                android:text="@string/hourly_forecast_temp_unit_C"
-                android:textColor="@{theme == Theme.DARK ? @android:color/white : @color/dark_black}"
-                android:textSize="@dimen/_13ssp"
-                app:layout_constraintBottom_toBottomOf="@+id/location_plain_text"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/location_plain_text"
-                tools:textColor="@android:color/white" />
-
             <Button
                 android:id="@+id/search_query"
                 android:layout_width="0dp"
@@ -118,8 +103,8 @@
                 android:padding="8dp"
                 android:text="@string/find_location_plain_text"
                 android:textAllCaps="false"
-                android:textColorHint="@color/dark_black"
                 android:textColor="@color/dark_black"
+                android:textColorHint="@color/dark_black"
                 android:textSize="@dimen/_12ssp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -139,6 +124,8 @@
 
                 <ImageView
                     android:id="@+id/gps_cardinal_direction_image"
+                    getImageIcon="@{theme}"
+                    iconType="@{IconType.Navigation}"
                     android:layout_width="@dimen/_18sdp"
                     android:layout_height="@dimen/_18sdp"
                     android:layout_marginStart="24dp"
@@ -146,8 +133,6 @@
                     android:importantForAccessibility="no"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    iconType="@{IconType.Navigation}"
-                    getImageIcon="@{theme}"
                     tools:src="@drawable/ic_near_me_white" />
 
                 <TextView
@@ -169,7 +154,7 @@
                     android:id="@+id/gps_location_city"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_16sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/advent_pro_semibold"
                     android:text="@{reversedGeoCodingLocation.reverseGeoCodingAddress.country}"
                     android:textColor="@{theme == Theme.DARK ? @android:color/white : @color/dark_black}"
@@ -202,12 +187,12 @@
 
                 <ImageView
                     android:id="@+id/enable_location_image"
+                    getImageIcon="@{theme}"
+                    iconType="@{IconType.Navigation}"
                     android:layout_width="@dimen/_18sdp"
                     android:layout_height="@dimen/_18sdp"
                     android:layout_gravity="start|center_vertical"
-                    android:importantForAccessibility="no"
-                    iconType="@{IconType.Navigation}"
-                    getImageIcon="@{theme}" />
+                    android:importantForAccessibility="no" />
 
                 <TextView
                     android:id="@+id/enable_location_text"
@@ -217,8 +202,8 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginLeft="10dp"
                     android:fontFamily="@font/roboto"
-                    android:textColor="@{theme == Theme.DARK ? @android:color/white : @color/dark_black}"
                     android:text="@{isLoading == true ? @string/loading_plain_text : @string/enable_location_services_plain_text}"
+                    android:textColor="@{theme == Theme.DARK ? @android:color/white : @color/dark_black}"
                     tools:text="@string/enable_location_services_plain_text" />
             </LinearLayout>
 
@@ -238,9 +223,9 @@
                     android:id="@+id/favourites_plain_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginStart="@dimen/_14sdp"
+                    android:layout_marginLeft="@dimen/_14sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
                     android:fontFamily="@font/coda"
                     android:text="@string/favourites_plain_text"
                     android:textColor="@{theme == Theme.DARK ? @android:color/white : @color/dark_black}"
@@ -274,7 +259,6 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/favourite_recycler_view"
-                    getFavouriteLocations="@{favouriteLocationsList}"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -285,9 +269,9 @@
                     android:id="@+id/recent_plain_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="80dp"
+                    android:layout_marginStart="@dimen/_14sdp"
+                    android:layout_marginLeft="@dimen/_14sdp"
+                    android:layout_marginTop="@dimen/_70sdp"
                     android:fontFamily="@font/coda"
                     android:text="@string/recent_upper_plain_text"
                     android:textColor="@{theme == Theme.DARK ? @android:color/white : @color/dark_black}"
@@ -328,13 +312,13 @@
                     app:layout_constraintTop_toBottomOf="@+id/recent_line" />
 
                 <TextView
-                    android:id="@+id/edit_favourites_btn"
+                    android:id="@+id/clear_favourites_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"
                     android:padding="4dp"
-                    android:text="@string/edit_plain_text"
+                    android:text="@string/clear_all_plain_text"
                     android:textColor="@{theme == Theme.DARK ? @android:color/white : @color/dark_black}"
                     android:textSize="@dimen/_11ssp"
                     app:layout_constraintBottom_toBottomOf="@+id/favourites_plain_text"

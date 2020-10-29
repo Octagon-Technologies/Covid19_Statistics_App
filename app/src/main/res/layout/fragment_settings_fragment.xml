@@ -5,13 +5,13 @@
 
     <data>
 
-        <import type="com.octagon_technologies.covid19moniterapp.Theme" />
-        <import type="com.octagon_technologies.covid19moniterapp.IconType"/>
+        <import type="com.octagon_technologies.covid19_statistics_app.Theme" />
+        <import type="com.octagon_technologies.covid19_statistics_app.IconType"/>
 
 
         <variable
             name="viewModel"
-            type="com.octagon_technologies.covid19moniterapp.main_activity.MainViewModel" />
+            type="com.octagon_technologies.covid19_statistics_app.main_activity.MainViewModel" />
 
     </data>
 
@@ -180,18 +180,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/contact_us_btn"
                 tools:textColor="@color/dark_black" />
 
-            <TextView
-                android:id="@+id/icons_by_flaticon_plain_text"
-                android:textColor="@{ viewModel.theme == Theme.LIGHT ? @color/dark_black : @android:color/white}"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/_16sdp"
-                android:background="@android:color/transparent"
-                android:text="@string/icons_by_flaticon_plain_text"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:textColor="@color/dark_black" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

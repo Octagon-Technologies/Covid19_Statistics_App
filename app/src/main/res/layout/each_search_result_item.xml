@@ -9,7 +9,7 @@
 
         <import type="androidx.lifecycle.LiveData" />
 
-        <import type="com.octagon_technologies.covid19moniterapp.Theme" />
+        <import type="com.octagon_technologies.covid19_statistics_app.Theme" />
 
         <variable
             name="location"
@@ -25,7 +25,7 @@
 
         <variable
             name="theme"
-            type="LiveData&lt;Theme&gt;" />
+            type="Theme" />
 
     </data>
 
@@ -59,17 +59,15 @@
 
         <ImageView
             android:id="@+id/add_to_favourites_btn"
-            addToFavouriteIcon="@{location}"
-            addCustomTint="@{theme}"
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             android:contentDescription="@string/add_city_to_favourites_plain_text"
             app:layout_constraintBottom_toBottomOf="@+id/search_city_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/search_city_name"
-            tools:srcCompat="@drawable/ic_add_circle_outline_black" />
+            tools:srcCompat="@drawable/ic_add_circle_outline_white" />
 
         <View
             android:id="@+id/bottom_divider"
