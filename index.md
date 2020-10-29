@@ -1,37 +1,27 @@
-## Welcome to GitHub Pages
+# Privacy Policy #
 
-You can use the [editor on GitHub](https://github.com/Andre-max/covid19-tracker-app/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+Octagon Technologies built the Covid19 Statistics app as a Free app. This SERVICE is provided by Octagon Technologies at no cost and is intended for use as is.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+This page is used to inform visitors regarding our policies with the collection, use, and disclosure of Personal Information if anyone decided to use our Service.
 
-### Markdown
+If you choose to use our Service, then you agree to the collection and use of information in relation to this policy. The Personal Information that we collect is used for providing and improving the Service. We will not use or share your information with anyone except as described in this Privacy Policy.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
-```markdown
-Syntax highlighted code block
+### Security ###
 
-# Header 1
-## Header 2
-### Header 3
+We value your trust in providing us your Personal Information, thus we are striving to use commercially acceptable means of protecting it. But remember that no method of transmission over the internet, or method of electronic storage is 100% secure and reliable, and we cannot guarantee its absolute security.
 
-- Bulleted
-- List
 
-1. Numbered
-2. List
+### Children’s Privacy ### 
 
-**Bold** and _Italic_ and `Code` text
+These Services do not address anyone under the age of 13. We do not knowingly collect personally identifiable information from children under 13\. In the case we discover that a child under 13 has provided us with personal information, we immediately delete this from our servers. If you are a parent or guardian and you are aware that your child has provided us with personal information, please contact us so that we will be able to do necessary actions.
 
-[Link](url) and ![Image](src)
-```
+### Changes to This Privacy Policy ### 
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+We may update our Privacy Policy from time to time. Thus, you are advised to review this page periodically for any changes. We will notify you of any changes by posting the new Privacy Policy on this page.
+This policy is effective as of 2020-10-30
 
-### Jekyll Themes
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Andre-max/covid19-tracker-app/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+### Contact Us ### 
 
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at tech.octagontechnologies@gmail.com.
